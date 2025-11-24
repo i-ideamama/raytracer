@@ -3,7 +3,8 @@
 #include "world/camera.h"
 #include "objects/hittable.h"
 #include "world/hittable_list.h"
-#include "materials/material.h"
+#include "materials/metal.h"
+#include "materials/lambertian.h"
 #include "objects/sphere.h"
 
 auto aspect_ratio = 16.0 / 9.0;
