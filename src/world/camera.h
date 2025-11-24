@@ -4,6 +4,13 @@
 #include "../objects/hittable.h"
 #include "../materials/material.h"
 
+#include <chrono>
+
+std::string get_time_string(double time)
+{
+    return std::to_string(time * 1000) + std::string(" ms");
+}
+
 class camera
 {
 public:
@@ -15,13 +22,31 @@ public:
     void render(const hittable &world)
     {
         initialize();
+        auto prev = std::chrono::high_resolution_clock::now();
+        auto curr = std::chrono::high_resolution_clock::now();
 
         std::cout << "P3\n"
                   << image_width << ' ' << image_height << "\n255\n";
 
+        double min_time = infinity;
+        double max_time = 0;
+        double average_time = 0;
+
         for (int j = 0; j < image_height; j++)
         {
-            std::clog << "\rScanlines remaining: " << (image_height - j) << ' ' << std::flush;
+            curr = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<double> elapsed_seconds = curr - prev;
+            double time = elapsed_seconds.count();
+
+            min_time = std::min(min_time, time);
+            max_time = std::max(max_time, time);
+            average_time += (time - average_time) / (j + 1);
+
+            std::clog << "\rScanlines remaining: " << (image_height - j)
+                      << " Time: " << get_time_string(time) << " Average Time: " << get_time_string(average_time)
+                      << std::flush;
+            prev = curr;
+
             for (int i = 0; i < image_width; i++)
             {
                 color pixel_color(0, 0, 0);
@@ -34,7 +59,9 @@ public:
             }
         }
 
-        std::clog << "\rDone.                 \n";
+        std::clog << "\rMin: " << get_time_string(min_time) << " Max: " << get_time_string(max_time)
+                  << " Average Time : " << get_time_string(average_time) << "                      \n"
+                  << std::flush;
     }
 
 private:
