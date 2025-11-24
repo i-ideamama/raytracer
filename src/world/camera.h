@@ -8,7 +8,7 @@
 
 std::string get_time_string(double time)
 {
-    return std::to_string(time * 1000) + std::string(" ms");
+    return std::to_string(time) + std::string(" ms");
 }
 
 class camera
@@ -34,19 +34,6 @@ public:
 
         for (int j = 0; j < image_height; j++)
         {
-            curr = std::chrono::high_resolution_clock::now();
-            std::chrono::duration<double> elapsed_seconds = curr - prev;
-            double time = elapsed_seconds.count();
-
-            min_time = std::min(min_time, time);
-            max_time = std::max(max_time, time);
-            average_time += (time - average_time) / (j + 1);
-
-            std::clog << "\rScanlines remaining: " << (image_height - j)
-                      << " Time: " << get_time_string(time) << " Average Time: " << get_time_string(average_time)
-                      << std::flush;
-            prev = curr;
-
             for (int i = 0; i < image_width; i++)
             {
                 color pixel_color(0, 0, 0);
@@ -55,7 +42,22 @@ public:
                     ray r = get_ray(i, j);
                     pixel_color += ray_color(r, max_depth, world);
                 }
-                write_color(std::cout, pixel_samples_scale * pixel_color);
+
+                curr = std::chrono::high_resolution_clock::now();
+                std::chrono::duration<double> elapsed_seconds = curr - prev;
+                double time = elapsed_seconds.count() * 1000;
+
+                min_time = std::min(min_time, time);
+                max_time = std::max(max_time, time);
+                double count = j * image_width + i;
+                average_time += (time - average_time) / (count + 1);
+
+                std::clog << "\rPixels remaining: " << (image_height * image_width - (j * image_width + i + 1))
+                          << " Time: " << get_time_string(time) << " Average Time: " << get_time_string(average_time)
+                          << std::flush;
+                prev = curr;
+                write_color(std::cout, color(1, 1, 1) * (time < 1 ? time : 1));
+                // write_color(std::cout, pixel_samples_scale * pixel_color);
             }
         }
 
