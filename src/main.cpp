@@ -7,9 +7,6 @@
 #include "materials/lambertian.h"
 #include "objects/sphere.h"
 
-auto aspect_ratio = 16.0 / 9.0;
-int image_width = 400;
-
 int main()
 {
     // Materials
