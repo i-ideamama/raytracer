@@ -9,18 +9,21 @@
 auto aspect_ratio = 16.0 / 9.0;
 int image_width = 400;
 
-
-color ray_color(const ray& r) {
-    sphere s(point3(0,0,-1) , 0.5);
+color ray_color(const ray &r)
+{
+    // sphere
+    sphere s(point3(0, 0, -1), 0.5);
     hit_record h;
     auto t = s.hit(r, 0, INT_MAX, h);
-    if (t > 0.0) {
-        vec3 N = unit_vector(h.normal);  // Use the normal from hit_record
-        return 0.5*color(N.x()+1, N.y()+1, N.z()+1);    
+    if (t > 0.0)
+    {
+        vec3 N = unit_vector(h.normal); // Use the normal from hit_record
+        return 0.5 * color(N.x() + 1, N.y() + 1, N.z() + 1);
     }
+    // background
     vec3 unit_direction = unit_vector(r.direction());
-    auto a = 0.5*(unit_direction.y() + 1.0);
-    return (1.0-a)*color(1.0, 1.0, 1.0) + a*color(0.5, 0.7, 1.0);
+    auto a = 0.5 * (unit_direction.y() + 1.0);
+    return (1.0 - a) * color(1.0, 1.0, 1.0) + a * color(0.5, 0.7, 1.0);
 }
 
 int main()
