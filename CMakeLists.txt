@@ -5,3 +5,10 @@ add_executable(raytracer
     src/main.cpp
 )
 
+target_include_directories(raytracer PRIVATE
+    src/materials
+    src/objects
+    src/utils
+    src/world
+)
+
