@@ -1,7 +1,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "hittable.h"
+#include "../objects/hittable.h"
 
 class camera
 {

@@ -1,9 +1,9 @@
-#include "common.h"
+#include "utils/common.h"
 
-#include "camera.h"
-#include "hittable.h"
-#include "hittable_list.h"
-#include "sphere.h"
+#include "world/camera.h"
+#include "objects/hittable.h"
+#include "world/hittable_list.h"
+#include "objects/sphere.h"
 
 auto aspect_ratio = 16.0 / 9.0;
 int image_width = 400;
