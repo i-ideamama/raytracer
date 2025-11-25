@@ -146,19 +146,51 @@ inline vec3 reflect(const vec3 &v, const vec3 &n)
     return v - 2 * dot(v, n) * n;
 }
 
-inline vec3 refract(const vec3& uv, const vec3& n, double etai_over_etat) {
+inline vec3 refract(const vec3 &uv, const vec3 &n, double etai_over_etat)
+{
     auto cos_theta = std::fmin(dot(-uv, n), 1.0);
-    vec3 r_out_perp =  etai_over_etat * (uv + cos_theta*n);
+    vec3 r_out_perp = etai_over_etat * (uv + cos_theta * n);
     vec3 r_out_parallel = -std::sqrt(std::fabs(1.0 - r_out_perp.length_squared())) * n;
     return r_out_perp + r_out_parallel;
 }
 
-inline vec3 random_in_unit_disk() {
-    while (true) {
-        auto p = vec3(random_double(-1,1), random_double(-1,1), 0);
+inline vec3 random_in_unit_disk()
+{
+    while (true)
+    {
+        auto p = vec3(random_double(-1, 1), random_double(-1, 1), 0);
         if (p.length_squared() < 1)
             return p;
     }
+}
+
+inline vec3 rotate_euler(const vec3 &v, const vec3 &r)
+{
+    double cx = std::cos(r.x()), sx = std::sin(r.x());
+    double cy = std::cos(r.y()), sy = std::sin(r.y());
+    double cz = std::cos(r.z()), sz = std::sin(r.z());
+
+    vec3 out = v;
+
+    // Rotate about X
+    out = vec3(
+        out.x(),
+        out.y() * cx - out.z() * sx,
+        out.y() * sx + out.z() * cx);
+
+    // Rotate about Y
+    out = vec3(
+        out.x() * cy + out.z() * sy,
+        out.y(),
+        -out.x() * sy + out.z() * cy);
+
+    // Rotate about Z
+    out = vec3(
+        out.x() * cz - out.y() * sz,
+        out.x() * sz + out.y() * cz,
+        out.z());
+
+    return out;
 }
 
 #endif
