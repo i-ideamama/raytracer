@@ -19,13 +19,13 @@ public:
     int samples_per_pixel = 10;
     int max_depth = 10;
 
-    double vfov = 90; 
+    double vfov = 90;
 
-    point3 lookfrom = point3(0,0,0);
-    point3 lookat = point3(0,0,-1);
-    vec3 vup = vec3(0,1,0);
+    point3 lookfrom = point3(0, 0, 0);
+    point3 lookat = point3(0, 0, -1);
+    vec3 vup = vec3(0, 1, 0);
 
-    double defocus_angle = 0; 
+    double defocus_angle = 0;
     double focus_dist = 10;
 
     void render(const hittable &world)
@@ -82,9 +82,9 @@ private:
     point3 pixel00_loc;
     vec3 pixel_delta_u;
     vec3 pixel_delta_v;
-    vec3   u, v, w; 
-    vec3   defocus_disk_u;
-    vec3   defocus_disk_v;           
+    vec3 u, v, w;
+    vec3 defocus_disk_u;
+    vec3 defocus_disk_v;
 
     void initialize()
     {
@@ -96,7 +96,7 @@ private:
 
         // Determine viewport dimensions.
         auto theta = degrees_to_radians(vfov);
-        auto h = std::tan(theta/2);
+        auto h = std::tan(theta / 2);
         auto viewport_height = 2 * h * focus_dist;
         auto viewport_width = viewport_height * (double(image_width) / image_height);
 
@@ -106,15 +106,15 @@ private:
         v = cross(w, u);
 
         // Calculate the vectors across the horizontal and down the vertical viewport edges.
-        vec3 viewport_u = viewport_width * u;    // Vector across viewport horizontal edge
-        vec3 viewport_v = viewport_height * -v;  // Vector down viewport vertical edge
+        vec3 viewport_u = viewport_width * u;   // Vector across viewport horizontal edge
+        vec3 viewport_v = viewport_height * -v; // Vector down viewport vertical edge
 
         // Calculate the horizontal and vertical delta vectors from pixel to pixel.
         pixel_delta_u = viewport_u / image_width;
         pixel_delta_v = viewport_v / image_height;
 
         // Calculate the location of the upper left pixel.
-        auto viewport_upper_left = center - (focus_dist * w) - viewport_u/2 - viewport_v/2;
+        auto viewport_upper_left = center - (focus_dist * w) - viewport_u / 2 - viewport_v / 2;
         pixel00_loc = viewport_upper_left + 0.5 * (pixel_delta_u + pixel_delta_v);
 
         auto defocus_radius = focus_dist * std::tan(degrees_to_radians(defocus_angle / 2));
@@ -160,7 +160,8 @@ private:
         return vec3(random_double() - 0.5, random_double() - 0.5, 0);
     }
 
-    point3 defocus_disk_sample() const {
+    point3 defocus_disk_sample() const
+    {
         // Returns a random point in the camera defocus disk.
         auto p = random_in_unit_disk();
         return center + (p[0] * defocus_disk_u) + (p[1] * defocus_disk_v);
