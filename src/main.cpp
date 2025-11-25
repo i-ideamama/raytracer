@@ -1,3 +1,5 @@
+#include <chrono>
+
 #include "utils/common.h"
 #include "world/camera.h"
 #include "world/hittable_list.h"
@@ -15,7 +17,8 @@
 #include "materials/dielectric.h"
 
 int main()
-{
+{   
+    auto start = std::chrono::high_resolution_clock::now();
     // Materials
     auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0.0));
     auto material_center = make_shared<lambertian>(color(0.1, 0.2, 0.5));
@@ -49,4 +52,8 @@ int main()
     // cam.focus_dist = 3.4;
 
     cam.render(world);
+
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = end - start;
+    std::cout<<"Time elapsed = " <<elapsed.count() << " seconds.\n";
 }
