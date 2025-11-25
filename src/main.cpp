@@ -33,12 +33,13 @@ int main()
     world.add(make_shared<sphere>(point3(-1.0, 0.0, -1.0), 0.4, material_bubble));
     world.add(make_shared<sphere>(point3(1.0, 0.0, -1.0), 0.5, material_right));
 
+    // Camera
     camera cam;
 
-    cam.aspect_ratio      = 16.0 / 9.0;
-    cam.image_width       = 1200;
-    cam.samples_per_pixel = 500;
-    cam.max_depth         = 50;
+    cam.aspect_ratio = 16.0 / 9.0;
+    cam.image_width = 400;
+    cam.samples_per_pixel = 100;
+    cam.max_depth = 50;
 
     cam.lookfrom = point3(0, 0.25, 0.25);
     // cam.lookat = point3(0, 0, -1);
