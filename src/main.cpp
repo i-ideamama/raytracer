@@ -5,6 +5,7 @@
 #include "world/hittable_list.h"
 
 // include objects
+#include "objects/cone.h"
 #include "objects/cube.h"
 #include "objects/hittable.h"
 #include "objects/plane.h"
@@ -17,7 +18,7 @@
 #include "materials/dielectric.h"
 
 int main()
-{   
+{
     auto start = std::chrono::high_resolution_clock::now();
     // Materials
     auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0.0));
@@ -34,7 +35,8 @@ int main()
     world.add(make_shared<cube>(point3(0, 0, -1.2), point3(pi / 4, -pi / 4, pi / 4), point3(1, 0.5, 0.5), material_center));
     world.add(make_shared<sphere>(point3(-1.0, 0.0, -1.0), 0.5, material_left));
     world.add(make_shared<sphere>(point3(-1.0, 0.0, -1.0), 0.4, material_bubble));
-    world.add(make_shared<sphere>(point3(1.0, 0.0, -1.0), 0.5, material_right));
+    world.add(make_shared<cone>(point3(1.2, -0.3, -1), point3(-pi / 18 * 1.5, pi / 32, -pi / 18 * 2.5), point3(1, 1.5, 1), 16, material_right));
+    // world.add(make_shared<sphere>(point3(1.0, 0.0, -1.0), 0.5, material_right));
 
     // Camera
     camera cam;
@@ -55,5 +57,5 @@ int main()
 
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end - start;
-    std::cout<<"Time elapsed = " <<elapsed.count() << " seconds.\n";
+    std::cout << "Time elapsed = " << elapsed.count() << " seconds.\n";
 }
