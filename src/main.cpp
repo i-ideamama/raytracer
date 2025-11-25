@@ -5,6 +5,7 @@
 // include objects
 #include "objects/cube.h"
 #include "objects/hittable.h"
+#include "objects/plane.h"
 #include "objects/sphere.h"
 #include "objects/triangle.h"
 
@@ -26,7 +27,7 @@ int main()
     // World
     hittable_list world;
 
-    world.add(make_shared<sphere>(point3(0.0, -100.5, -1.0), 100.0, material_ground));
+    world.add(make_shared<plane>(point3(0, -0.5, 0), point3(0, 0, 0), point3(100, 1, 100), material_ground));
     world.add(make_shared<cube>(point3(0, 0, -1.2), point3(pi / 4, -pi / 4, pi / 4), point3(1, 0.5, 0.5), material_center));
     world.add(make_shared<sphere>(point3(-1.0, 0.0, -1.0), 0.5, material_left));
     world.add(make_shared<sphere>(point3(-1.0, 0.0, -1.0), 0.4, material_bubble));
@@ -40,7 +41,7 @@ int main()
     cam.samples_per_pixel = 100;
     cam.max_depth = 50;
 
-    // cam.lookfrom = point3(-2, 2, 1);
+    // cam.lookfrom = point3(0, 1, 0);
     // cam.lookat = point3(0, 0, -1);
     // cam.vup = vec3(0, 1, 0);
 

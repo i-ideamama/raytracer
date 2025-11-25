@@ -164,4 +164,33 @@ inline vec3 random_in_unit_disk()
     }
 }
 
+inline vec3 rotate_euler(const vec3 &v, const vec3 &r)
+{
+    double cx = std::cos(r.x()), sx = std::sin(r.x());
+    double cy = std::cos(r.y()), sy = std::sin(r.y());
+    double cz = std::cos(r.z()), sz = std::sin(r.z());
+
+    vec3 out = v;
+
+    // Rotate about X
+    out = vec3(
+        out.x(),
+        out.y() * cx - out.z() * sx,
+        out.y() * sx + out.z() * cx);
+
+    // Rotate about Y
+    out = vec3(
+        out.x() * cy + out.z() * sy,
+        out.y(),
+        -out.x() * sy + out.z() * cy);
+
+    // Rotate about Z
+    out = vec3(
+        out.x() * cz - out.y() * sz,
+        out.x() * sz + out.y() * cz,
+        out.z());
+
+    return out;
+}
+
 #endif

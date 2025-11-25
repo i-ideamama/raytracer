@@ -1,14 +1,14 @@
-#ifndef CUBE_H
-#define CUBE_H
+#ifndef PLANE_H
+#define PLANE_H
 #include "../utils/vec3.h"
 #include "hittable.h"
 #include "triangle.h"
 
-class cube : public hittable
+class plane : public hittable
 {
 public:
     // rot must be in radians
-    cube(const point3 &loc, const vec3 &rot, const vec3 &scale, std::shared_ptr<material> mat) : mat(mat)
+    plane(const point3 &loc, const vec3 &rot, const vec3 &scale, std::shared_ptr<material> mat) : mat(mat)
     {
         build(loc, rot, scale, mat);
     }
@@ -39,51 +39,31 @@ private:
 
     void build(const point3 &loc, const vec3 &rot, const vec3 &scale, std::shared_ptr<material> mat)
     {
-        // base unit cube centered at origin (-0.5..+0.5)
         std::vector<vec3> base = {
-            vec3(-0.5, -0.5, -0.5),
-            vec3(0.5, -0.5, -0.5),
-            vec3(0.5, 0.5, -0.5),
-            vec3(-0.5, 0.5, -0.5),
-            vec3(-0.5, -0.5, 0.5),
-            vec3(0.5, -0.5, 0.5),
-            vec3(0.5, 0.5, 0.5),
-            vec3(-0.5, 0.5, 0.5)};
+            vec3(-0.5, 0, -0.5),
+            vec3(0.5, 0, -0.5),
+            vec3(0.5, 0, 0.5),
+            vec3(-0.5, 0, 0.5),
+        };
 
         // transform vertices: S > R > T
-        std::vector<point3> v(8);
-        for (int i = 0; i < 8; ++i)
+        std::vector<point3> v(4);
+        for (int i = 0; i < 4; ++i)
         {
             vec3 p = vec3(base[i].x() * scale.x(), base[i].y() * scale.y(), base[i].z() * scale.z());
             p = rotate_euler(p, rot);
             p = p + loc;
             v[i] = p;
+            // std::cerr << "v[" << i << "] = " << v[i].x() << ", " << v[i].y() << ", " << v[i].z() << "\n";
         }
-
-        // 12 triangles (CCW winding) two per face
-        static const int t[12][3] = {
-            // -Z face (back)
+        static const int t[2][3] = {
             {0, 1, 2},
             {0, 2, 3},
-            // +Z face (front)
-            {4, 6, 5},
-            {4, 7, 6},
-            // -Y face (bottom)
-            {0, 5, 1},
-            {0, 4, 5},
-            // +Y face (top)
-            {3, 2, 6},
-            {3, 6, 7},
-            // -X face (left)
-            {0, 3, 7},
-            {0, 7, 4},
-            // +X face (right)
-            {1, 5, 6},
-            {1, 6, 2}};
+        };
 
         tris.clear();
-        tris.reserve(12);
-        for (int i = 0; i < 12; ++i)
+        tris.reserve(2);
+        for (int i = 0; i < 2; ++i)
         {
             point3 A = v[t[i][0]];
             point3 B = v[t[i][1]];
