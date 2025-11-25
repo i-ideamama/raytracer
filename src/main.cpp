@@ -3,6 +3,7 @@
 #include "world/hittable_list.h"
 
 // include objects
+#include "objects/cube.h"
 #include "objects/hittable.h"
 #include "objects/sphere.h"
 #include "objects/triangle.h"
@@ -26,11 +27,10 @@ int main()
     hittable_list world;
 
     world.add(make_shared<sphere>(point3(0.0, -100.5, -1.0), 100.0, material_ground));
-    world.add(make_shared<sphere>(point3(0.0, 0.0, -1.2), 0.5, material_center));
+    world.add(make_shared<cube>(point3(0, 0, -1.2), point3(pi / 4, -pi / 4, pi / 4), point3(1, 0.5, 0.5), material_center));
     world.add(make_shared<sphere>(point3(-1.0, 0.0, -1.0), 0.5, material_left));
     world.add(make_shared<sphere>(point3(-1.0, 0.0, -1.0), 0.4, material_bubble));
     world.add(make_shared<sphere>(point3(1.0, 0.0, -1.0), 0.5, material_right));
-    world.add(make_shared<triangle>(point3(-0.25, 0, -0.7), point3(-0.5, -0.5, -0.25), point3(0.2, -0.5, -0.6), material_triangle));
 
     // Camera
     camera cam;
