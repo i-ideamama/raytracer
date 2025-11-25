@@ -4,6 +4,9 @@
 #include "../objects/hittable.h"
 #include "../materials/material.h"
 
+#include <omp.h>
+#include <vector>
+
 class camera
 {
 public:
@@ -28,9 +31,12 @@ public:
         std::cout << "P3\n"
                   << image_width << ' ' << image_height << "\n255\n";
 
+        // Pre-allocate storage for all pixel colors
+        std::vector<std::vector<color>> pixels(image_height, std::vector<color>(image_width));
+
+        #pragma omp parallel for collapse(2) schedule(dynamic)
         for (int j = 0; j < image_height; j++)
         {
-            std::clog << "\rScanlines remaining: " << (image_height - j) << ' ' << std::flush;
             for (int i = 0; i < image_width; i++)
             {
                 color pixel_color(0, 0, 0);
@@ -39,8 +45,18 @@ public:
                     ray r = get_ray(i, j);
                     pixel_color += ray_color(r, max_depth, world);
                 }
-                write_color(std::cout, pixel_samples_scale * pixel_color);
+                pixels[j][i] = pixel_samples_scale * pixel_color;
             }
+        }
+
+        // Write pixels to output (single-threaded)
+        for (int j = 0; j < image_height; j++)
+        {
+            for (int i = 0; i < image_width; i++)
+            {
+                write_color(std::cout, pixels[j][i]);
+            }
+            std::clog << "\rScanlines remaining: " << (image_height - j - 1) << ' ' << std::flush;
         }
 
         std::clog << "\rDone.                 \n";
