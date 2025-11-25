@@ -7,6 +7,7 @@
 // include objects
 #include "objects/cone.h"
 #include "objects/cube.h"
+#include "objects/cylinder.h"
 #include "objects/hittable.h"
 #include "objects/plane.h"
 #include "objects/sphere.h"
@@ -23,6 +24,7 @@ int main()
     // Materials
     auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0.0));
     auto material_center = make_shared<lambertian>(color(0.1, 0.2, 0.5));
+    auto material_center2 = make_shared<lambertian>(color(0.1, 0.5, 0.2));
     auto material_triangle = make_shared<lambertian>(color(0.5, 0.2, 0.1));
     auto material_left = make_shared<dielectric>(1.50);
     auto material_bubble = make_shared<dielectric>(1.00 / 1.50);
@@ -36,6 +38,7 @@ int main()
     world.add(make_shared<sphere>(point3(-1.0, 0.0, -1.0), 0.5, material_left));
     world.add(make_shared<sphere>(point3(-1.0, 0.0, -1.0), 0.4, material_bubble));
     world.add(make_shared<cone>(point3(1.2, -0.3, -1), point3(-pi / 18 * 1.5, pi / 32, -pi / 18 * 2.5), point3(1, 1.5, 1), 16, material_right));
+    world.add(make_shared<cylinder>(point3(0.5, -0.45, -0.7), point3(0, pi / 32, 0), point3(0.7, 0.1, 0.7), 20, material_center2));
     // world.add(make_shared<sphere>(point3(1.0, 0.0, -1.0), 0.5, material_right));
 
     // Camera
