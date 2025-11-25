@@ -11,7 +11,7 @@ public:
 
     bool hit(const ray &r, interval ray_t, hit_record &rec) const override
     {
-        const double EPS = 0.001;
+        const double EPS = 1e-6;
         vec3 E1 = B - A;
         vec3 E2 = C - A;
 
@@ -38,7 +38,7 @@ public:
 
         rec.t = t;
         rec.p = r.at(rec.t);
-        vec3 outward_normal = cross(E1, E2);
+        vec3 outward_normal = unit_vector(cross(E1, E2));
         rec.set_face_normal(r, outward_normal);
         rec.mat = mat;
 
