@@ -21,6 +21,34 @@
 int main()
 {
     auto start = std::chrono::high_resolution_clock::now();
+    // World
+    hittable_list world = debug_world();
+
+    // Camera
+    camera cam;
+
+    cam.aspect_ratio = 16.0 / 9.0;
+    cam.image_width = 400;
+    cam.samples_per_pixel = 100;
+    cam.max_depth = 50;
+
+    cam.lookfrom = point3(0, 5, 6);
+    cam.lookat = point3(0, 0, 0);
+    // cam.vup = vec3(0, 1, 0);
+
+    // cam.defocus_angle = 10.0;
+    // cam.focus_dist = 3.4;
+
+    cam.render(world);
+
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = end - start;
+    std::clog << "Time elapsed = " << elapsed.count() << " seconds.\n"
+              << std::flush;
+}
+
+hittable_list debug_world()
+{
     // Materials
     auto material_ground = make_shared<lambertian>(color(0.8, 0.8, 0.0));
     auto material_center = make_shared<lambertian>(color(0.1, 0.2, 0.5));
@@ -41,24 +69,5 @@ int main()
     world.add(make_shared<cylinder>(point3(0.5, -0.45, -0.7), point3(0, pi / 32, 0), point3(0.7, 0.1, 0.7), 20, material_center2));
     // world.add(make_shared<sphere>(point3(1.0, 0.0, -1.0), 0.5, material_right));
 
-    // Camera
-    camera cam;
-
-    cam.aspect_ratio = 16.0 / 9.0;
-    cam.image_width = 400;
-    cam.samples_per_pixel = 100;
-    cam.max_depth = 50;
-
-    cam.lookfrom = point3(0, 0.25, 0.25);
-    // cam.lookat = point3(0, 0, -1);
-    // cam.vup = vec3(0, 1, 0);
-
-    // cam.defocus_angle = 10.0;
-    // cam.focus_dist = 3.4;
-
-    cam.render(world);
-
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> elapsed = end - start;
-    std::cout << "Time elapsed = " << elapsed.count() << " seconds.\n";
+    return world;
 }
