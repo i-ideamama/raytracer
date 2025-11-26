@@ -33,20 +33,20 @@ int main()
     camera cam;
 
     cam.aspect_ratio = 16.0 / 9.0;
-    cam.image_width = 400;
+    cam.image_width = 1200;
     cam.samples_per_pixel = 100;
     cam.max_depth = 50;
 
-    cam.lookfrom = point3(2, 1.5, 1.5);
-    cam.lookat = point3(0.5, 1.25, -0.5);
-    // cam.lookfrom = point3(0.5, 1.75, 0.6);
-    // cam.lookat = point3(0.5, 1.7, 0);
+    // cam.lookfrom = point3(2, 1.5, 1.5);
+    // cam.lookat = point3(0.5, 1.25, -0.5);
+    cam.lookfrom = point3(0.5, 1.75, 0.6);
+    cam.lookat = point3(0.5, 1.7, 0);
     // cam.vup = vec3(0, 1, 0);
 
-    // cam.defocus_angle = 4.0;
-    // cam.focus_dist = 0.75;
-    // cam.vfov = 60;
-    cam.vfov = 75;
+    cam.defocus_angle = 4.0;
+    cam.focus_dist = 0.75;
+    cam.vfov = 60;
+    // cam.vfov = 75;
 
     cam.render(world);
 

@@ -120,67 +120,38 @@
     <div class="container">
         <header>
             <h1>A Raytracer !</h1>
-            <p>written in C++ with support for shapes and materials.</p>
+            <p>written in C++ with support for basic shapes and materials.</p>
         </header>
 
         <main>
             <section>
-                <h2>Overview</h2>
-                <!-- <p>
-                    What we have created is a raytracer. 
-                    It is written in C++.
-                    Supports shapes like cubes and spheres and materials like metal, dielectric etc.
-                </p>
-                    <html>
-                    <head>
-                    <style>
-                        .center {
-                        display: flex;
-                        justify-content: center;
-                        }
-                    </style>
-                    </head>
-                    <body>
+                <h2>Key Features</h2>
+                    <li><strong>Supports basic shapes: </strong> Like sphere and triangle and uses these for primitives like cones, cubes and cones.</li>
+                    <li><strong>Diffuse, metal, and dielectric materials: </strong> Lambertian, metal with fuzziness, glass with refraction.</li>
+                    <li><strong>Camera model: </strong> Allows field-of-view, aspect ratio control, and depth of field via lens sampling. </li>
+                    <li><strong>Recursive ray bouncing: </strong> Supports global illumination and soft lighting. </li>
 
-                    <div class="center">
-                    <img src="free_tree_example.png" width="600">
-                    </div>
-                    </body>
-                    </html> -->
-            </section>
-
-            <section>
-                <h2>Features</h2>
-
+                    <li><strong>Anti-aliasing: </strong> via random sampling per pixel. </li>
+                    <li><strong>CPU parallelization: </strong> Using OpenMP library. </li>
+                    
                 <h3>Core Functionality</h3>
-                <!-- <ul>
-                    <li>Draws custom Free Trees using R1 algorithm explained in Peter Eade's Drawing Free Trees paper.</li>
-                    <li>Uses Bresenham's Line Algorithm to draw circles and lines.</li>
-                    <li>Allows user to input custom free trees.</li>
-                    <html>
-                    <head>
-                    <style>
-                        .center {
-                        display: flex;
-                        justify-content: center;
-                        }
-                    </style>
-                    </head>
-                    <body>
-
-                    <div class="center">
-                    <img src="r1_algo.png" width="400">
-                    </div>
-                    </body>
-                    </html>
-                </ul> -->
+                    <li><strong>Ray class:</strong> Stores origin & direction; computes points along a ray.</li>
+                    <li><strong>Hittable interface & hit records:</strong> Defines ray–object intersection behavior and stores intersection details such as point and normal.</li>
+                    <li><strong>Materials system:</strong> Uses <code>scatter()</code> to determine ray bounce behavior (diffuse, metal, dielectric) and computes attenuation.</li>
+                    <li><strong>Color computation:</strong> Traces rays recursively, accumulates light contributions, and returns sky gradient on misses.</li>
+                    <li><strong>Recursive path tracing:</strong> Rays bounce until max depth to avoid infinite recursion.</li>
+                    <li><strong>Monte Carlo integration:</strong> Multiple random samples per pixel to reduce noise and achieve realistic lighting.</li>
+                    <li><strong>Gamma correction:</strong> Adjusts final pixel colors for proper brightness perception.</li>
+                    <li><strong>Scene & world:</strong> A collection of objects tested for ray intersections.</li>
             </section>
 
             <section>
-                <h2>Challenges and Solutions</h2>
+                <h2>Some raytraced images: </h2>
                 <ul>
-                    <!-- <li><strong>Challenge 1:</strong> Drawing Pixels using OpenGL.</li> -->
-                    <!-- <li><strong>Solution 1:</strong> Drawing a single pixel to screen proved to be non-trivial in modern OpenGL. After a lot of digging, we decided on using Legacy OpenGl for our project as it simplified drawing single pixels on screen.</li> -->
+                    <h3>View of objects on a chair (part2) </h3>
+                    <img src="./pictures/chair_zoomed.png" alt="Description" width="300">
+
+                    <!-- include path tests and other pics demonstrating depth of field etc. -->
                 </ul>
             </section>
 
